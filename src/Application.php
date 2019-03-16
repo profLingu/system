@@ -97,7 +97,7 @@
     		    $this->proccessPattern($pattern);
     
     		    if(preg_match('|^'.$pattern.'$|', $_SERVER['REQUEST_URI'], $match))
-    		    {;
+    		    {
     		        while($key = array_keys($this->params)[intval($i++)])
     		        {
     		            $this->setParam($key, $match[$i]);
