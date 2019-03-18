@@ -4,6 +4,8 @@
     {
         private $root       = null;
         private $injected   = null;
+        private $object     = null;
+        private $config     = [];
         private $running    = false;
 
         private $output = [];
@@ -22,6 +24,52 @@
             $this->setRootPath($root);
 
             $this->injected = $inject;        
+        }
+
+        public function model(&$model)
+        {
+            $model = 'Lingu\\Model\\'.$name = ucfirst($model);
+
+            if(!isset($this->object[$model]))
+            {
+                if(class_exists($model))
+                {
+                    if('Lingu\\System\\Model' == get_parent_class($model))
+                    {
+                        $this->object[$model] = new $model($this);
+                    }
+
+                    else throw new Exception('model "'.$name.'" tidak sah, class "'.$model.'" bukan anak dari class "Lingu\\System\\Model"');
+                }
+
+                else throw new Exception('model "'.$name.'" tidak ditemukan, class "'.$model.'" tidak ada');
+            }
+
+            $model = $this->object[$model];
+
+            return $this;
+        }
+
+        public function config(&$config, bool $ncache = false)
+        {
+            if(null === $config = $this->config[$name = $config])
+            {
+                $this->getRootPath($file);
+
+                if(file_exists($file = $file.'/Config'.'/'.$name.'.ini'))
+                {
+                    $config  = parse_ini_file($file, true);
+
+                    if(!$ncache)
+                    {
+                        $this->config[$name] = $config;
+                    }
+                }
+
+                else throw new Exception('config "'.$name.'" tidak ditemukan, file "'.$file.'" tidak ada');
+            }
+
+            return $this;
         }
 
         public function getRootPath(&$root)

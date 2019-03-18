@@ -2,19 +2,19 @@
 
 	abstract class Model
 	{
-	    private $_controller = null;
+	    private $_app = null;
 
-	    public final function __construct(Controller $controller)
+	    public final function __construct(Application $app)
 	    {
-	        $this->_controller = $controller;
+	        $this->_app = $app;
 	    }
 
 	    protected final function _model(String &$model)
 	    {
 	        try
 	        {
-    	        $this->_controller
-    	             ->_model($model);
+    	        $this->_app
+    	             ->model($model);
     
 	        }
 
@@ -28,8 +28,8 @@
 	    {
 	        try
 	        {
-    	        $this->_controller
-    	             ->_config($config, $ncache);
+    	        $this->_app
+    	             ->config($config, $ncache);
     
 	        }
 
