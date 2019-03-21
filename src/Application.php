@@ -140,7 +140,7 @@
 
 		private function match(string $method, string $pattern): bool
 		{
-		    if($_SERVER['REQUEST_METHOD'] == strtoupper($method))
+		    if($_SERVER['REQUEST_METHOD'] == $method = strtoupper($method) || '*' == $method)
 		    {
     		    $this->proccessPattern($pattern);
     
